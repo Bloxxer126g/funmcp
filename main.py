@@ -1,6 +1,6 @@
 from typing import Any
 import httpx
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 WORD_OF_DAY = "Thermal"
 QUOTE_INFO = [
@@ -9,6 +9,7 @@ QUOTE_INFO = [
     1620
 ]
 
+# Initialize FastMCP server
 mcp = FastMCP("Wordplay")
 
 @mcp.tool()
@@ -25,12 +26,14 @@ async def get_quote_of_day():
     """
     return QUOTE_INFO   
 
+# Get the underlying ASGI app
 app = mcp.get_asgi_app()
 
+# Fallback home route so the webpage loads cleanly instead of throwing a 500
 @app.get("/")
 async def root():
     return {
         "status": "healthy",
-        "message": "Wordplay MCP Server is running!",
-        "sse_endpoint": "/sse"
+        "message": "Wordplay MCP Server is live!",
+        "mcp_endpoint": "/sse"
     }
