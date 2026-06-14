@@ -1,6 +1,6 @@
 from typing import Any
 import httpx
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 WORD_OF_DAY = "Thermal"
 QUOTE_INFO = [
