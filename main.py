@@ -1,13 +1,14 @@
-WORD_OF_DAY = "Thermal"
-QUOTE_INFO = ["When it is not necessary to make a decision, it is necessary not to make a decision.","Lord Falkland",1620]
-
-
 from typing import Any
-
 import httpx
 from mcp.server.fastmcp import FastMCP
 
-# Initialize FastMCP server
+WORD_OF_DAY = "Thermal"
+QUOTE_INFO = [
+    "When it is not necessary to make a decision, it is necessary not to make a decision.",
+    "Lord Falkland",
+    1620
+]
+
 mcp = FastMCP("Wordplay")
 
 @mcp.tool()
@@ -24,9 +25,8 @@ async def get_quote_of_day():
     """
     return QUOTE_INFO   
 
-def main():
-    mcp.run(transport="stdio")
-
+app = mcp.get_asgi_app() 
 
 if __name__ == "__main__":
-    main()
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
