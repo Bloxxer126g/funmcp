@@ -1,6 +1,6 @@
 from typing import Any
 import httpx
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 WORD_OF_DAY = "Thermal"
 QUOTE_INFO = [
@@ -25,8 +25,12 @@ async def get_quote_of_day():
     """
     return QUOTE_INFO   
 
-app = mcp.get_asgi_app() 
+app = mcp.get_asgi_app()
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/")
+async def root():
+    return {
+        "status": "healthy",
+        "message": "Wordplay MCP Server is running!",
+        "sse_endpoint": "/sse"
+    }
